@@ -1,0 +1,8 @@
+#!/bin/sh
+source "${1:-/usr/lib/dovecot/dovecot-config}"
+gcc -shared -fPIC -DPIC $DOVECOT_CFLAGS *.c $LIBDOVECOT -o libauth_bcrypt_plugin.so
+cat > install << EOF
+#!/bin/sh
+cp "$(pwd)/libauth_bcrypt_plugin.so" "$dovecot_moduledir/auth/"
+EOF
+chmod +x install
